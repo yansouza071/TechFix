@@ -1,0 +1,6 @@
+{
+  "name": "TechFix — Ordem de Serviço & Chatbot NLP",
+  "description": "Plataforma TechFix para gerenciamento de serviços, testes de API REST, chatbot com NLP (NLTK e spaCy) e código-fonte Python + MySQL.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

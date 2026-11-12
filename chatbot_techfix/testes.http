@@ -1,0 +1,98 @@
+@baseUrl = http://127.0.0.1:5000
+
+### ============================================================
+### ETAPA 4 - TESTES DE ACEITAÇÃO TECHFIX
+### ============================================================
+
+### 1. Teste de Criação (Esperado: 201 Created)
+# @name criarServico
+POST {{baseUrl}}/servicos
+Content-Type: application/json
+
+{
+  "nome": "Limpeza Interna",
+  "preco": 90.00
+}
+
+### 1b. Listar todos os serviços (Esperado: 200 OK)
+GET {{baseUrl}}/servicos
+
+### ------------------------------------------------------------
+
+### 2a. Teste de Validação - Preço negativo (Esperado: 400 Bad Request)
+POST {{baseUrl}}/servicos
+Content-Type: application/json
+
+{
+  "nome": "Troca de Teclado",
+  "preco": -50.00
+}
+
+### 2b. Teste de Validação - Nome em branco (Esperado: 400 Bad Request)
+POST {{baseUrl}}/servicos
+Content-Type: application/json
+
+{
+  "nome": "   ",
+  "preco": 150.00
+}
+
+### ------------------------------------------------------------
+
+### 3a. Teste de Atualização - PUT (Esperado: 200 OK)
+@servicoId = {{criarServico.response.body.id}}
+PUT {{baseUrl}}/servicos/{{servicoId}}
+Content-Type: application/json
+
+{
+  "nome": "Limpeza Interna Completa",
+  "preco": 110.00
+}
+
+### 3b. Teste de Exclusão - DELETE (Esperado: 200 OK)
+DELETE {{baseUrl}}/servicos/{{servicoId}}
+
+### 3c. Confirmar Exclusão - GET após DELETE (Esperado: 404 Not Found)
+GET {{baseUrl}}/servicos/{{servicoId}}
+
+### ------------------------------------------------------------
+
+### 4a. Chatbot - Saudação (Esperado: 200 OK)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "mensagem": "Olá, tudo bem?"
+}
+
+### 4b. Chatbot - Catálogo completo dinâmico do MySQL (Esperado: 200 OK)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "mensagem": "Quais serviços vocês oferecem?"
+}
+
+### 4c. Chatbot - Serviço específico identificado via spaCy (Esperado: 200 OK)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "mensagem": "Quanto custa a Troca de Tela?"
+}
+
+### 4d. Chatbot - Horário e localização (Esperado: 200 OK)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "mensagem": "Qual o horário e endereço da loja?"
+}
+
+### 4e. Chatbot - Fallback fora do escopo (Esperado: 200 OK)
+POST {{baseUrl}}/chat
+Content-Type: application/json
+
+{
+  "mensagem": "Vocês vendem capinha de celular?"
+}
